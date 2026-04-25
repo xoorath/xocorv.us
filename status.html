@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Status &mdash; xocorv.us</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><circle cx='5' cy='5' r='5' fill='%2372dec2'/></svg>">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 10px 0;
+      border-bottom: 1px dotted #ccc;
+    }
+    .status-row:first-child {
+      border-top: 1px dotted #ccc;
+    }
+    .status-label {
+      font-size: 0.9em;
+    }
+    #last-checked {
+      margin-top: 14px !important;
+      font-size: 0.85em;
+    }
+    @media (prefers-color-scheme: dark) {
+      .status-row { border-color: #333; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">xocorv.us</a>
+    <img src="media/xo_profile_pic.png" alt="" class="profile-pic profile-pic-default" aria-hidden="true">
+    <img src="media/xo_profile_pic_light.png" alt="" class="profile-pic profile-pic-light" aria-hidden="true">
+  </header>
+  <main>
+    <p class="intro">A private media server and game library for friends.</p>
+    <hr class="divider">
+    <h1>Service status</h1>
+    <div id="status-list"></div>
+    <p id="last-checked"></p>
+  </main>
+  <footer>
+    <a href="https://xo.codes" rel="noopener noreferrer">xo corvus</a> &bull; 2026
+  </footer>
+
+  <script>
+    const SERVICES = [
+      { name: 'Jellyfin', href: 'https://jellyfin.xocorv.us', check: 'https://jellyfin.xocorv.us/health' },
+      { name: 'Seerr',    href: 'https://seerr.xocorv.us',    check: 'https://seerr.xocorv.us/api/v1/status' },
+      { name: 'RomM',     href: 'https://romm.xocorv.us',     check: 'https://romm.xocorv.us/api/heartbeat' },
+    ];
+
+    const list = document.getElementById('status-list');
+
+    SERVICES.forEach(s => {
+      const row = document.createElement('div');
+      row.className = 'status-row';
+
+      const link = document.createElement('a');
+      link.href = s.href;
+      link.textContent = s.name;
+
+      const label = document.createElement('span');
+      label.className = 'status-label';
+      label.id = 'st-' + s.name.toLowerCase();
+      label.textContent = 'checking…';
+      label.style.setProperty('color', '#888', 'important');
+
+      row.appendChild(link);
+      row.appendChild(label);
+      list.appendChild(row);
+    });
+
+    function setStatus(name, text, color) {
+      const el = document.getElementById('st-' + name.toLowerCase());
+      el.textContent = text;
+      el.style.setProperty('color', color, 'important');
+    }
+
+    async function checkService(s) {
+      try {
+        const res = await fetch(s.check, { cache: 'no-store' });
+        if (res.ok || res.status === 304) {
+          setStatus(s.name, '● up', '#72dec2');
+        } else {
+          setStatus(s.name, '● degraded', '#e67e22');
+        }
+      } catch {
+        setStatus(s.name, '● down', '#e74c3c');
+      }
+    }
+
+    async function checkAll() {
+      await Promise.all(SERVICES.map(checkService));
+      document.getElementById('last-checked').textContent =
+        'Last checked at ' + new Date().toLocaleTimeString();
+    }
+
+    checkAll();
+    setInterval(checkAll, 60_000);
+  </script>
+</body>
+</html>

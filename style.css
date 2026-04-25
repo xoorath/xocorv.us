@@ -1,0 +1,177 @@
+/* Global reset — taken verbatim (reformatted) from wiki.xxiivv.com/links/main.css
+   by Devine Lu Linvega, CC BY-NC-SA 4.0
+   https://creativecommons.org/licenses/by-nc-sa/4.0/ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #000;
+}
+
+html {
+  background: #fff;
+}
+
+body {
+  font-family: Palatino, Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 50px 30px 80px;
+}
+
+/* Taken verbatim (broader selector) from wiki.xxiivv.com/links/main.css
+   by Devine Lu Linvega, CC BY-NC-SA 4.0 */
+::selection {
+  background-color: #72dec2;
+  color: #000;
+}
+
+a {
+  text-decoration: underline;
+}
+
+/* Hover inversion — taken verbatim (simplified selector) from wiki.xxiivv.com/links/main.css
+   by Devine Lu Linvega, CC BY-NC-SA 4.0 */
+a:hover {
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+}
+
+header {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.profile-pic-light {
+  display: none;
+}
+
+header a {
+  font-size: 1.95em;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-shadow: 2px 2px #72dec2;
+
+}
+
+main > * + * {
+  margin-top: 40px;
+}
+
+.intro {
+  color: #555;
+}
+
+.service {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.logo-link {
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: block;
+  line-height: 0;
+}
+
+.logo-link:hover {
+  background-color: transparent;
+}
+
+.service img {
+  width: 44px;
+  height: 44px;
+}
+
+.service h2 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.service h2 a {
+  text-decoration: none;
+}
+
+.service p {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.divider {
+  border: none;
+  border-top: 1px dotted #ccc;
+}
+
+h1 {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+h2.section {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.content > * + * {
+  margin-top: 30px;
+}
+
+.content p {
+  color: #333;
+}
+
+.content ol {
+  padding-left: 1.4em;
+  color: #333;
+}
+
+.content ol li {
+  margin-top: 6px;
+}
+
+footer {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px dotted #ccc;
+  font-size: 0.85em;
+  color: #888;
+}
+
+footer a {
+  text-decoration: none;
+}
+
+/* Dark mode — core rules (background, color, hover inversion) taken verbatim
+   from wiki.xxiivv.com/links/main.css by Devine Lu Linvega, CC BY-NC-SA 4.0
+   Component overrides below (.intro, .service p, etc.) are original. */
+@media (prefers-color-scheme: dark) {
+  html { background: #000; }
+  * { color: #fff; }
+
+  a:hover { background-color: #fff; color: #000; }
+
+  .profile-pic-default { display: none; }
+  .profile-pic-light { display: block; }
+
+  .intro { color: #aaa; }
+  .service p { color: #aaa; }
+  .divider { border-top-color: #333; }
+  .content p { color: #ccc; }
+  .content ol { color: #ccc; }
+  footer { color: #555; border-top-color: #333; }
+}
